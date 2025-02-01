@@ -23,6 +23,11 @@ dependencies {
 	modImplementation(fabricApi.module("fabric-rendering-data-attachment-v1", project.fabric_version))
 	modImplementation(fabricApi.module("fabric-rendering-fluids-v1", project.fabric_version))
 
+	// LWJGL
+	modImplementation "org.lwjgl:lwjgl:3.3.1"
+	modImplementation "org.lwjgl:lwjgl-glfw:3.3.1"
+	modImplementation "org.lwjgl:lwjgl-opengl:3.3.1"
+
 	// Sodium
 	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
 }

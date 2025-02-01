@@ -1,0 +1,60 @@
+{
+  "mappings": {
+    "me/jndildap/mixin/ClientConnectionMixin": {
+      "sendImmediately": "Lnet/minecraft/class_2535;method_10764(Lnet/minecraft/class_2596;Lnet/minecraft/class_7648;Z)V"
+    },
+    "me/jndildap/mixin/SplashTextResourceSupplierMixin": {
+      "apply(Ljava/util/List;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V": "Lnet/minecraft/class_4008;method_18175(Ljava/util/List;Lnet/minecraft/class_3300;Lnet/minecraft/class_3695;)V"
+    },
+    "me/jndildap/mixin/screen/AbstractSignEditScreenMixin": {
+      "init": "Lnet/minecraft/class_7743;method_25426()V",
+      "render": "Lnet/minecraft/class_7743;method_25394(Lnet/minecraft/class_332;IIF)V"
+    },
+    "me/jndildap/mixin/screen/BookScreenMixin": {
+      "init": "Lnet/minecraft/class_3872;method_25426()V",
+      "render": "Lnet/minecraft/class_3872;method_25394(Lnet/minecraft/class_332;IIF)V"
+    },
+    "me/jndildap/mixin/screen/ChatScreenMixin": {
+      "render": "Lnet/minecraft/class_408;method_25394(Lnet/minecraft/class_332;IIF)V"
+    },
+    "me/jndildap/mixin/screen/HandledScreenMixin": {
+      "init": "Lnet/minecraft/class_465;method_25426()V",
+      "keyPressed": "Lnet/minecraft/class_465;method_25404(III)Z",
+      "mouseClicked": "Lnet/minecraft/class_465;method_25402(DDI)Z",
+      "render": "Lnet/minecraft/class_465;method_25394(Lnet/minecraft/class_332;IIF)V"
+    },
+    "me/jndildap/mixin/screen/VideoOptionsScreenMixin": {
+      "getOptions": "Lnet/minecraft/class_446;method_41846(Lnet/minecraft/class_315;)[Lnet/minecraft/class_7172;"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "me/jndildap/mixin/ClientConnectionMixin": {
+        "sendImmediately": "Lnet/minecraft/class_2535;method_10764(Lnet/minecraft/class_2596;Lnet/minecraft/class_7648;Z)V"
+      },
+      "me/jndildap/mixin/SplashTextResourceSupplierMixin": {
+        "apply(Ljava/util/List;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V": "Lnet/minecraft/class_4008;method_18175(Ljava/util/List;Lnet/minecraft/class_3300;Lnet/minecraft/class_3695;)V"
+      },
+      "me/jndildap/mixin/screen/AbstractSignEditScreenMixin": {
+        "init": "Lnet/minecraft/class_7743;method_25426()V",
+        "render": "Lnet/minecraft/class_7743;method_25394(Lnet/minecraft/class_332;IIF)V"
+      },
+      "me/jndildap/mixin/screen/BookScreenMixin": {
+        "init": "Lnet/minecraft/class_3872;method_25426()V",
+        "render": "Lnet/minecraft/class_3872;method_25394(Lnet/minecraft/class_332;IIF)V"
+      },
+      "me/jndildap/mixin/screen/ChatScreenMixin": {
+        "render": "Lnet/minecraft/class_408;method_25394(Lnet/minecraft/class_332;IIF)V"
+      },
+      "me/jndildap/mixin/screen/HandledScreenMixin": {
+        "init": "Lnet/minecraft/class_465;method_25426()V",
+        "keyPressed": "Lnet/minecraft/class_465;method_25404(III)Z",
+        "mouseClicked": "Lnet/minecraft/class_465;method_25402(DDI)Z",
+        "render": "Lnet/minecraft/class_465;method_25394(Lnet/minecraft/class_332;IIF)V"
+      },
+      "me/jndildap/mixin/screen/VideoOptionsScreenMixin": {
+        "getOptions": "Lnet/minecraft/class_446;method_41846(Lnet/minecraft/class_315;)[Lnet/minecraft/class_7172;"
+      }
+    }
+  }
+}
