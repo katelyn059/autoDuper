@@ -4,14 +4,14 @@
   "package": "me.jndildap.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ClientConnectionMixin",
-    "SplashTextResourceSupplierMixin",
-    "screen.AbstractSignEditScreenMixin",
-    "screen.BookScreenMixin",
-    "screen.ChatScreenMixin",
-    "screen.HandledScreenMixin",
-    "screen.VideoOptionsScreenMixin",
-    "sodium.SodiumGameOptionPagesMixin"
+    "io.katelyn059.mixin.ClientConnectionMixin",
+    "io.katelyn059.mixin.SplashTextResourceSupplierMixin",
+    "io.katelyn059.mixin.screen.AbstractSignEditScreenMixin",
+    "io.katelyn059.mixin.screen.BookScreenMixin",
+    "io.katelyn059.mixin.screen.ChatScreenMixin",
+    "io.katelyn059.mixin.screen.HandledScreenMixin",
+    "io.katelyn059.mixin.screen.VideoOptionsScreenMixin",
+    "io.katelyn059.mixin.sodium.SodiumGameOptionPagesMixin"
   ],
   "injectors": {
     "defaultRequire": 1

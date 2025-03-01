@@ -18,7 +18,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "me.jndildap.WakDuper"
+      "io.katelyn059.WakDuper"
     ]
   },
   "mixins": [
