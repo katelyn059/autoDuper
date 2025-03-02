@@ -2,11 +2,15 @@ package io.katelyn059;
 
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
@@ -15,14 +19,18 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.BookUpdateC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +43,9 @@ public class WakDuper implements ClientModInitializer {
     public static Text restoreScreenBind;
     public static int txtColor = 0xFF828282;
     private static final Logger LOGGER = LogUtils.getLogger();
+    private boolean running = true;
+    private static final Identifier VELOCITY_PLAYER_INFO = Identifier.of("velocity", "main");
+    private static final String serverName = "main"; // Name of the server which should be connected to
 
     @Override
     public void onInitializeClient() {
@@ -58,12 +69,33 @@ public class WakDuper implements ClientModInitializer {
             }
         });
 
-        if(!(mc.player.getInventory().getMainHandStack().getItem()  == Items.WRITABLE_BOOK)) {
-            mc.player.sendMessage(Text.of("Please hold a writable book!"));
-            return;
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayerEntity player = handler.getPlayer();
+            mainLoop(player);
+        });
+    }
+
+    private void mainLoop(ServerPlayerEntity player) {
+        this.running = true;
+        while (running) {
+            boolean status = dupe();
+            if (!status){
+                MinecraftClient client = MinecraftClient.getInstance();
+                if (client.player != null){
+                    client.player.networkHandler.sendChatCommand("server "+serverName);
+                }
+            }
         }
-        for(int i = 9; i < 44; i++) {
-            if(36 + mc.player.getInventory().selectedSlot == i) continue;
+    }
+
+    private boolean dupe() {
+        if (!(mc.player.getInventory().getMainHandStack().getItem() == Items.WRITABLE_BOOK)) {
+            mc.player.sendMessage(Text.of("Please hold a writable book!"));
+            //this.running = false;
+            return false;
+        }
+        for (int i = 9; i < 44; i++) {
+            if (36 + mc.player.getInventory().selectedSlot == i) continue;
             mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(
                     mc.player.currentScreenHandler.syncId,
                     mc.player.currentScreenHandler.getRevision(),
@@ -77,6 +109,7 @@ public class WakDuper implements ClientModInitializer {
         mc.player.networkHandler.sendPacket(new BookUpdateC2SPacket(
                 mc.player.getInventory().selectedSlot, List.of("github.com/me-jndildap"), Optional.of("wakDupes On Fucking TOP github.com/me-jndildap"
         )));
+        return true;
     }
 
     public void onShutdownClient(MinecraftClient ignoredClient) {
@@ -86,8 +119,8 @@ public class WakDuper implements ClientModInitializer {
 
     // Slot Overlay
     public static void addText(DrawContext context, TextRenderer textRenderer, MinecraftClient client, int x, int y) {
-        if(client.player == null) return;
-        for(final Slot slot : client.player.currentScreenHandler.slots) {
+        if (client.player == null) return;
+        for (final Slot slot : client.player.currentScreenHandler.slots) {
             final Text id = Text.literal(Integer.toString(slot.id));
             context.drawText(textRenderer, id,
                     slot.x + x + 16 / 2 - textRenderer.getWidth(id) / 2,
@@ -98,9 +131,9 @@ public class WakDuper implements ClientModInitializer {
 
     // Sync ID & Revision
     public static void renderTexts(DrawContext context, TextRenderer textRenderer, MinecraftClient client) {
-        if(client.player == null) return;
+        if (client.player == null) return;
         final Text syncId = Text.literal("Sync Id: " + client.player.currentScreenHandler.syncId),
-            revision = Text.literal("Revision: " + client.player.currentScreenHandler.getRevision());
+                revision = Text.literal("Revision: " + client.player.currentScreenHandler.getRevision());
         context.drawText(textRenderer, syncId, LayoutPos.windowIdX(syncId), LayoutPos.windowIdY(true), -1, false);
         context.drawText(textRenderer, revision, LayoutPos.windowIdX(revision), LayoutPos.windowIdY(false), -1, false);
     }
@@ -115,8 +148,8 @@ public class WakDuper implements ClientModInitializer {
                     SimpleOption::setValue,
                     Codec.INT.xmap(LayoutMode::byId, LayoutMode::getId)),
             config.getLayoutMode(), value -> {
-                config.setLayout(value);
-                config.save();
+        config.setLayout(value);
+        config.save();
     });
 
     // Slot Overlay Option
